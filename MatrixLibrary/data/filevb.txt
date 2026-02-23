@@ -1,3 +1,7 @@
-2
-10.0
-25.0
+# Vector Data Format:
+# Row 1: <rows>
+# Following rows: <vector_elements>
+# Example for a 2x1 vector:
+#2
+#10.0
+#25.0
