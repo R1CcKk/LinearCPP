@@ -1,0 +1,50 @@
+# --- BINARI E ESEGUIBILI (La roba che non vogliamo) ---
+Main_app
+*.out
+*.app
+*.exe
+*.o
+*.obj
+*.a
+*.la
+*.lo
+*.so
+*.dylib
+
+# --- CARTELLE DI OUTPUT E BUILD ---
+output/
+bin/
+obj/
+build/
+dist/
+Debug/
+Release/
+x64/
+x86/
+
+# --- FILE DI SISTEMA (La monnezza di Mac e Windows) ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# --- IDE E EDITOR (VS Code, CLion, Xcode) ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+.clangd/
+.cache/
+*.user
+*.sublime-project
+*.sublime-workspace
+
+# --- LIBRERIE ESTERNE E LOG ---
+*.log
+*.tmp
+node_modules/
+vendor/
