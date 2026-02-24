@@ -63,7 +63,10 @@ The final phase focuses on the reliability of the results.
 └── data/              # Sample matrix files for I/O
 ```
 # To compile the benchmark:
+```
 g++ -O3 -std=c++17 benchmarks/bench_matrix.cpp MatrixLibrary/*.cpp -I./MatrixLibrary -lbenchmark -lpthread -o matrix_bench
-
+```
 # To run:
+```
 ./matrix_bench
+```
