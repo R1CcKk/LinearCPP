@@ -21,6 +21,7 @@ Debug/
 Release/
 x64/
 x86/
+matrix_bench/
 
 # --- FILE DI SISTEMA ---
 .DS_Store
@@ -30,7 +31,7 @@ x86/
 .Trashes
 ehthumbs.db
 Thumbs.db
-matrix_bench
+
 
 # --- IDE E EDITOR ---
 .vscode/
