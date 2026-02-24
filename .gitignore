@@ -21,7 +21,7 @@ Debug/
 Release/
 x64/
 x86/
-matrix_bench/
+matrix_bench
 
 # --- FILE DI SISTEMA ---
 .DS_Store
