@@ -1,4 +1,4 @@
-# --- BINARI E ESEGUIBILI (La roba che non vogliamo) ---
+# --- BINARI E ESEGUIBILI ---
 Main_app
 *.out
 *.app
@@ -22,7 +22,7 @@ Release/
 x64/
 x86/
 
-# --- FILE DI SISTEMA (La monnezza di Mac e Windows) ---
+# --- FILE DI SISTEMA ---
 .DS_Store
 .DS_Store?
 ._*
@@ -30,8 +30,9 @@ x86/
 .Trashes
 ehthumbs.db
 Thumbs.db
+matrix_bench
 
-# --- IDE E EDITOR (VS Code, CLion, Xcode) ---
+# --- IDE E EDITOR ---
 .vscode/
 .idea/
 *.swp
