@@ -1,5 +1,5 @@
-# --- BINARI E ESEGUIBILI ---
-Main_app
+# --- BINARIES AND EXECUTABLES ---
+[Mm]ain_app
 *.out
 *.app
 *.exe
@@ -10,8 +10,9 @@ Main_app
 *.lo
 *.so
 *.dylib
+matrix_bench
 
-# --- CARTELLE DI OUTPUT E BUILD ---
+# --- BUILD AND OUTPUT DIRECTORIES ---
 output/
 bin/
 obj/
@@ -21,9 +22,8 @@ Debug/
 Release/
 x64/
 x86/
-matrix_bench
 
-# --- FILE DI SISTEMA ---
+# --- SYSTEM FILES ---
 .DS_Store
 .DS_Store?
 ._*
@@ -32,8 +32,7 @@ matrix_bench
 ehthumbs.db
 Thumbs.db
 
-
-# --- IDE E EDITOR ---
+# --- IDE AND EDITORS ---
 .vscode/
 .idea/
 *.swp
@@ -45,7 +44,7 @@ Thumbs.db
 *.sublime-project
 *.sublime-workspace
 
-# --- LIBRERIE ESTERNE E LOG ---
+# --- EXTERNAL LIBRARIES AND LOGS ---
 *.log
 *.tmp
 node_modules/
