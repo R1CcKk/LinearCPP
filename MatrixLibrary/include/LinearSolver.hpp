@@ -83,10 +83,6 @@ template <typename T>
                 }
             }
         }
-        
-        
-
-
 
         return result;
     }

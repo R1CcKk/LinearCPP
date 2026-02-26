@@ -129,6 +129,16 @@ class Matrix {
 
             return CPadded.matrixUnpadding(m_rows, other.m_cols);
         }
+
+        Matrix<T> operator* (T scalar) const{
+            Matrix<T> result(m_rows, m_cols);
+            for(int i = 0; i < m_rows; ++i){
+                for(int j = 0; j < m_cols; ++j){
+                    result(i,j) = (*this)(i,j) * scalar;
+                }
+            }
+            return result;
+        }
         // algoritmo estrazione sottomatrici
         Matrix<T> getSubMatrix(int startRow, int startCol, int size) const
         {
@@ -246,7 +256,26 @@ class Matrix {
             }
         }
 
-        
+        Matrix<T> hadamard(const Matrix<T> &other) const{
+            if (m_rows != other.m_rows || m_cols != other.m_cols)
+                throw std::invalid_argument("Dimensions must match for Hadamard product");
+            Matrix<T> result(m_rows, m_cols);
+            for (int i = 0; i < m_data.size(); ++i)
+                result.m_data[i] = m_data[i] * other.m_data[i];
+            return result;
+        }
+
+        Matrix<T> transpose() const{
+            Matrix<T> result(m_cols, m_rows);
+            for (int i = 0; i < m_rows; ++i) {
+                for (int j = 0; j < m_cols; ++j) {
+                    result(j, i) = (*this)(i, j);
+                }
+            }
+            return result;
+        }
+
+
 };
 
 #endif // MATRIX_HPP
