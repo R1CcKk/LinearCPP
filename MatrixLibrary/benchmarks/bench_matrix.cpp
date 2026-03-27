@@ -1,73 +1,92 @@
 #include <benchmark/benchmark.h>
-#include "Matrix.hpp"
-#include "LinearSolver.hpp"
 #include <vector>
 #include <random>
 
-/**
- * @brief Benchmark for Matrix Multiplication (A * B).
- * Evaluates the performance of the overloaded * operator and cache efficiency.
- */
-void BM_MatrixMultiplication(benchmark::State& state){
+#include "Matrix.hpp"
+#include "LinearSolver.hpp"
+#include "Product.hpp"
 
+/**
+ * @brief Benchmark for Classical Matrix Multiplication (ikj).
+ * We call matrixMultiply directly to bypass the threshold logic in operator*.
+ */
+static void BM_ClassicalProduct(benchmark::State &state)
+{
     int n = state.range(0);
 
-    Matrix<double> A(n,n), B(n,n);
-
-    for (int i = 0; i < n; ++i)
-    {
-        for(int j = 0; j < n; ++j){
-            A(i, j) = (double)rand() / (RAND_MAX / 10.0);
-        }
-    }
+    Matrix<double> A(n, n), B(n, n);
     for (int i = 0; i < n; ++i)
     {
         for (int j = 0; j < n; ++j)
         {
-            B(i, j) = (double)rand() / (RAND_MAX / 10.0);
+            A(i, j) = (double)rand() / RAND_MAX;
+            B(i, j) = (double)rand() / RAND_MAX;
         }
     }
 
     for (auto _ : state)
     {
-        Matrix<double> C = A*B;
-        benchmark::DoNotOptimize(C); 
+        Matrix<double> C = matrixMultiply(A, B);
+        benchmark::DoNotOptimize(C);
     }
 }
 
 /**
- * @brief Benchmark for Linear System Solver (Ax = b).
- * Measures the combined execution time of LU Decomposition and Substitution.
+ * @brief Benchmark for Strassen Matrix Multiplication.
+ * This will show the overhead of recursion and sub-matrix allocations.
  */
-void BM_LinearSolver(benchmark::State &state)
+static void BM_StrassenProduct(benchmark::State &state)
+{
+    int n = state.range(0);
+
+    Matrix<double> A(n, n), B(n, n);
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
+            A(i, j) = (double)rand() / RAND_MAX;
+            B(i, j) = (double)rand() / RAND_MAX;
+        }
+    }
+
+    for (auto _ : state)
+    {
+        Matrix<double> C = strassenMultiply(A, B);
+        benchmark::DoNotOptimize(C);
+    }
+}
+
+/**
+ * @brief Benchmark for the Linear System Solver (Ax = b).
+ * Measures the performance of LU Decomposition + Forward/Backward substitution.
+ */
+static void BM_LUSolver(benchmark::State &state)
 {
     int n = state.range(0);
 
     Matrix<double> A(n, n);
     std::vector<double> b(n);
-
     for (int i = 0; i < n; ++i)
     {
         for (int j = 0; j < n; ++j)
         {
-            //+1 to avoid zero entries which could lead to singular matrices
-            A(i, j) = 1.0 + (double)rand() / (RAND_MAX / 9.0);
+            A(i, j) = 1.0 + (double)rand() / RAND_MAX;
         }
-        b[i] = 1.0 + (double)rand() / (RAND_MAX / 9.0);
-        //I need to to ensure that the matrix is not singular, so I add a value to the diagonal elements
-        A(i, i) += n;
+        b[i] = 1.0 + (double)rand() / RAND_MAX;
+        A(i, i) += n; // Diagonally dominant to ensure it's not singular
     }
 
     for (auto _ : state)
     {
-        auto lu_result = decomposeLU(A);
-        auto x = solve(lu_result, b);
-
+        auto lu_result = decomposeLU(A); 
+        auto x = solve(lu_result, b);    
         benchmark::DoNotOptimize(x);
     }
 }
 
-BENCHMARK(BM_LinearSolver)->Arg(500)->Arg(750)->Arg(1000)->Arg(2000)->Unit(benchmark::kMillisecond);
-BENCHMARK(BM_MatrixMultiplication)->Arg(500)->Arg(750)->Arg(1000)->Arg(2000)->Unit(benchmark::kMillisecond);
+
+BENCHMARK(BM_ClassicalProduct)->RangeMultiplier(2)->Range(64, 2048)->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_StrassenProduct)->RangeMultiplier(2)->Range(64, 2048)->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_LUSolver)->RangeMultiplier(2)->Range(64, 2048)->Unit(benchmark::kMillisecond);
 
 BENCHMARK_MAIN();
